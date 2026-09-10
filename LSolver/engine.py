@@ -1,7 +1,7 @@
 import numpy as np
 from .config import SimulationConfig
 
-def solver(config: SimulationConfig, seed: int) -> tuple[np.ndarray, np.ndarray]:
+def solver(config: SimulationConfig, rng: np.random.Generator = None) -> tuple[np.ndarray, np.ndarray]:
     """
     Simulate single trajectory x(t) and stochastic time y(t)
 
@@ -9,14 +9,15 @@ def solver(config: SimulationConfig, seed: int) -> tuple[np.ndarray, np.ndarray]
     ----------
     config : SimulationConfig
         Configuration of the simulation.
-    seed : int
+    rng : np.random.Generator
+        Optional rng for reproducibility.
 
     Returns
     -------
     Tuple (x(t), y(t)).
     """
-    if seed is not None:
-        np.random.seed(seed)
+    if rng is None:
+        rng = np.random.default_rng()
     
     N = config.num_steps
     dt = config.dt
@@ -27,8 +28,8 @@ def solver(config: SimulationConfig, seed: int) -> tuple[np.ndarray, np.ndarray]
     y = np.empty(N)
     x[0] = config.x0
     y[0] = 0.0
-    eta_x = np.random.normal(0, 1, N-1)
-    eta_y = np.random.normal(0, 1, N-1)
+    eta_x = rng.normal(0, 1, N-1)
+    eta_y = rng.normal(0, 1, N-1)
     
     for i in range(N-1):
         t = t_arr[i]
