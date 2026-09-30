@@ -41,7 +41,8 @@ class SimulationConfig_new:
     # Physical parameters
     gamma: float
     F_func: TimeDependentFunc
-    T_func: TimeDependentFunc
+    Tx_func: TimeDependentFunc
+    Ty_func: TimeDependentFunc
     
     # Discretization
     t_max: float

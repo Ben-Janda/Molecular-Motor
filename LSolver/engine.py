@@ -45,7 +45,7 @@ def solver(config: SimulationConfig, rng: np.random.Generator = None) -> tuple[n
         
     return x, y
 
-def solver_new(config: SimulationConfig_new, rng: np.random.Generator = None) -> tuple[np.ndarray, np.ndarray]:
+def underdamped(config: SimulationConfig_new, rng: np.random.Generator = None) -> tuple[np.ndarray, np.ndarray]:
     """
     Simulate single trajectory x(t) and stochastic time y(t)
 
@@ -78,10 +78,11 @@ def solver_new(config: SimulationConfig_new, rng: np.random.Generator = None) ->
     for i in range(N-1):
         t = t_arr[i]
         Ft = config.F_func(t, x[i], y[i])
-        Tt = config.T_func(t, x[i], y[i])
+        Txt = config.Tx_func(t, x[i], y[i])
+        Tyt = config.Ty_func(t, x[i], y[i])
         
-        dx = -(kt/gamma) * x[i] * dt + sigma * eta_x[i]
-        dy = sigma * eta_y[i]
+        dx = Ft * dt + np.sqrt(2*Txt*dt/gamma) * eta_x[i]
+        dy =  np.sqrt(2*Tyt*dt/gamma) * eta_y[i]
         
         x[i+1] = x[i] + dx
         y[i+1] = y[i] + dy
