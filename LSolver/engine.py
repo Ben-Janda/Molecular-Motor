@@ -1,7 +1,7 @@
 import numpy as np
 from .config import SimulationConfig
 
-def underdamped(config: SimulationConfig, rng: np.random.Generator = None) -> tuple[np.ndarray, np.ndarray]:
+def overdamped(config: SimulationConfig, rng: np.random.Generator = None) -> tuple[np.ndarray, np.ndarray]:
     """
     Simulate single trajectory x(t) and stochastic time y(t)
 
