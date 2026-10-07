@@ -27,18 +27,19 @@ def overdamped(config: SimulationConfig, rng: np.random.Generator = None) -> tup
     x = np.empty(N)
     y = np.empty(N)
     x[0] = config.x0
-    y[0] = 0.0
+    y[0] = config.y0
     eta_x = rng.normal(0, 1, N-1)
     eta_y = rng.normal(0, 1, N-1)
     
     for i in range(N-1):
         t = t_arr[i]
-        Ft = config.F_func(t, x[i], y[i])
+        Fxt = config.Fx_func(t, x[i], y[i])
+        Fyt = config.Fy_func(t, x[i], y[i])
         Txt = config.Tx_func(t, x[i], y[i])
         Tyt = config.Ty_func(t, x[i], y[i])
         
-        dx = Ft * dt + np.sqrt(2*Txt*dt/gamma) * eta_x[i]
-        dy =  np.sqrt(2*Tyt*dt/gamma) * eta_y[i]
+        dx = Fxt * dt + np.sqrt(2*Txt*dt/gamma) * eta_x[i]
+        dy = Fyt * dt + np.sqrt(2*Tyt*dt/gamma) * eta_y[i]
         
         x[i+1] = x[i] + dx
         y[i+1] = y[i] + dy

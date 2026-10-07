@@ -9,14 +9,16 @@ class SimulationConfig:
     """Configuration of physical paramaters and discretization"""
     # Physical parameters
     gamma: float
-    F_func: TimeDependentFunc
+    Fx_func: TimeDependentFunc
+    Fy_func: TimeDependentFunc = 0.0
     Tx_func: TimeDependentFunc
-    Ty_func: TimeDependentFunc
+    Ty_func: TimeDependentFunc = 0.0
     
     # Discretization
     t_max: float
     dt: float
     x0: float = 0.0
+    y0: float = 0.0
     
     # For evaluation
     t_array: np.ndarray = field(init=False, repr=False)
